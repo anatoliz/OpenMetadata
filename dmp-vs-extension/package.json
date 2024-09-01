@@ -1,0 +1,162 @@
+{
+  "name": "openmetadata-tasks",
+  "displayName": "OpenMetadata Tasks",
+  "description": "Manage OpenMetadata tasks in VS Code",
+  "version": "0.0.1",
+  "publisher": "YourPublisherName",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YourUsername/YourRepositoryName.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YourUsername/YourRepositoryName/issues"
+  },
+  "homepage": "https://github.com/YourUsername/YourRepositoryName#readme",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:openmetadata-tasks.connect",
+    "onView:openmetadataTasks"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    // Commands that the extension provides
+    "commands": [
+      {
+        "command": "openmetadata-tasks.connect",
+        "title": "Connect to OpenMetadata"
+      },
+      {
+        "command": "openmetadata-tasks.refreshTasks",
+        "title": "OpenMetadata: Refresh Tasks",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "openmetadata-tasks.downloadAsset",
+        "title": "Download Asset Code"
+      },
+      {
+        "command": "openmetadata-tasks.openInBrowser",
+        "title": "Open in Browser"
+      },
+      {
+        "command": "openmetadata-tasks.configure",
+        "title": "OpenMetadata: Configure API"
+      },
+      {
+        "command": "openmetadata-tasks.loadMore",
+        "title": "Load More Tasks"
+      }
+    ],
+    // Views that the extension provides
+    "views": {
+      "explorer": [
+        {
+          "id": "openMetadataTasks",
+          "name": "OpenMetadata Tasks"
+        }
+      ]
+    },
+    // Menu items for the extension
+    "menus": {
+      "view/title": [
+        {
+          "command": "openmetadata-tasks.refreshTasks",
+          "when": "view == openMetadataTasks",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "openmetadata-tasks.downloadAsset",
+          "when": "view == openMetadataTasks && (viewItem == openTask || viewItem == completedTask)"
+        },
+        {
+          "command": "openmetadata-tasks.openInBrowser",
+          "when": "view == openMetadataTasks && (viewItem == openTask || viewItem == completedTask)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "OpenMetadata",
+      "properties": {
+        "openmetadata.apiUrl": {
+          "type": "string",
+          "default": "",
+          "description": "OpenMetadata API URL (e.g., https://your-openmetadata-instance.com/api)"
+        },
+        "openmetadata.webAppUrl": {
+          "type": "string",
+          "default": "",
+          "description": "OpenMetadata Web Application URL (e.g., https://your-openmetadata-instance.com)"
+        },
+        "openmetadata.refreshInterval": {
+          "type": "number",
+          "default": 300,
+          "description": "Interval (in seconds) to refresh tasks automatically"
+        },
+        "openmetadata.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show notifications for task updates"
+        },
+        "openmetadata.taskRefreshInterval": {
+          "type": "number",
+          "default": 300,
+          "description": "Interval (in seconds) to automatically refresh tasks"
+        },
+        "openmetadata.defaultView": {
+          "type": "string",
+          "enum": ["all", "open", "completed"],
+          "default": "all",
+          "description": "Default view for tasks"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [{
+        "id": "openmetadata-explorer",
+        "title": "OpenMetadata Explorer",
+        "icon": "resources/openmetadata-icon.svg"
+      }]
+    },
+    "views": {
+      "openmetadata-explorer": [{
+        "id": "openMetadataTasks",
+        "name": "Tasks"
+      }]
+    }
+  },
+  // Scripts for development and publishing
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "jest",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "dev": "NODE_ENV=development npm run watch"
+  },
+  // Development dependencies
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "^14.14.37",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
+    "typescript": "^4.2.4",
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3"
+  },
+  // Runtime dependencies
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
